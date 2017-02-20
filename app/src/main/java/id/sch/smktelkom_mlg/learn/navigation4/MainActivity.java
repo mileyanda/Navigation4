@@ -35,12 +35,16 @@ public class MainActivity extends AppCompatActivity
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+                this, drawer, toolbar, R.string.navigation_drawer_open,
+                R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        changePage(R.id.nav_home);
+        navigationView.setCheckedItem(R.id.nav_home);
     }
 
     @Override
@@ -78,8 +82,15 @@ public class MainActivity extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        Fragment fragment = null;
         int id = item.getItemId();
+
+        changePage(id);
+
+        return true;
+    }
+
+    private void changePage(int id) {
+        Fragment fragment = null;
 
         if (id == R.id.nav_home) {
             fragment = new HomeFragment();
@@ -98,10 +109,11 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_send) {
 
         }
-        getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commitNow();
+
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.container, fragment).commitNow();
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
-        return true;
     }
 }
